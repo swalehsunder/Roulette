@@ -1,0 +1,37 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+# Initialize Chrome WebDriver
+driver = webdriver.Chrome()
+
+# Test Case 1: Roulette Wheel Spin
+def test_roulette_wheel_spin():
+    driver.get("https://csgoempire.com/roulette")
+    # Locate and click the spin button
+    spin_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "spin-button")))
+    spin_button.click()
+    # Validate the outcome of the spin
+    outcome_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "spin-outcome")))
+    outcome = outcome_element.text
+    assert outcome != "", "Roulette wheel spin did not produce an outcome"
+    print("Roulette wheel spun successfully. Outcome:", outcome)
+
+# Test Case 2: Bet Placement
+def test_bet_placement():
+    driver.get("https://csgoempire.com/roulette")
+    # Place bets on different bet types
+    bet_amount_input = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "bet-amount")))
+    bet_amount_input.clear()
+    bet_amount_input.send_keys("10")  # Set bet amount
+    red_bet_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "red")))
+    red_bet_button.click()  # Place bet on red color
+    black_bet_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "black")))
+    black_bet_button.click()  # Place bet on black color
+    # Verify that bets are reflected in the game interface
+    placed_bets = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "placed-bets")))
+    assert "Red" in placed_bets.text and "Black" in placed_bets.text, "Placed bets not reflected in the game interface"
+    print("Bets placed successfully.")
+# Close the WebDriver
+driver.quit()
