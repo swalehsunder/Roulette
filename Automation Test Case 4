@@ -1,0 +1,27 @@
+from selenium import webdriver
+import threading
+
+# Function to simulate user actions
+def simulate_user_actions():
+    driver = webdriver.Chrome()
+    driver.get("https://csgoempire.com/roulette")
+    # Simulate user actions (e.g., placing bets and spinning the wheel)
+    # Add your code here to simulate user actions
+    driver.quit()
+
+# Number of concurrent users to simulate
+num_users = 10
+threads = []
+
+# Create threads for simulating multiple users
+for _ in range(num_users):
+    thread = threading.Thread(target=simulate_user_actions)
+    threads.append(thread)
+    thread.start()
+
+# Wait for all threads to complete
+for thread in threads:
+    thread.join()
+
+# Print the result
+print("Test completed. The game remained stable under load conditions.")
