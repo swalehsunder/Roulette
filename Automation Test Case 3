@@ -1,0 +1,43 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+# Open Chrome WebDriver
+driver = webdriver.Chrome()
+
+# Go to the roulette game page
+driver.get("https://csgoempire.com/roulette")
+
+# Place a bet on red
+bet_amount = driver.find_element(By.ID, "bet-amount")
+bet_amount.clear()
+bet_amount.send_keys("10")
+red_bet = driver.find_element(By.ID, "red")
+red_bet.click()
+
+# Spin the roulette wheel
+spin_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "spin-button")))
+spin_button.click()
+
+# Get the outcome
+outcome_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "spin-outcome")))
+outcome = outcome_element.text
+
+# Check if the outcome is red
+if outcome == "Red":
+    placed_bets = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "placed-bets")))
+    assert "Red" in placed_bets.text, "Winning bet on red not correctly identified"
+    
+    payout_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "payout")))
+    payout = float(payout_element.text)
+    bet_amount_value = float(bet_amount.get_attribute("value"))
+    expected_payout = bet_amount_value * payout
+    assert expected_payout == 20.0, "Payout calculation incorrect"
+    
+    print("Winning bets are accurately identified, and payouts are calculated correctly based on the game outcome (Red).")
+else:
+    print("Test case skipped. Outcome is not Red.")
+
+# Close the WebDriver
+driver.quit()
