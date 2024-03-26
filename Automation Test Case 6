@@ -1,0 +1,37 @@
+from selenium import webdriver
+import time
+
+# Function to measure response time for game actions
+def measure_response_time():
+    driver = webdriver.Chrome()
+    driver.get("https://csgoempire.com/roulette")
+    
+    # Measure response time for placing a bet
+    start_time = time.time()
+    # Simulate placing a bet action
+    # Add your code here to simulate placing a bet
+    end_time = time.time()
+    bet_response_time = end_time - start_time
+    
+    # Measure response time for spinning the wheel
+    start_time = time.time()
+    # Simulate spinning the wheel action
+    # Add your code here to simulate spinning the wheel
+    end_time = time.time()
+    spin_response_time = end_time - start_time
+    
+    # Print response times
+    print("Response time for placing a bet:", bet_response_time)
+    print("Response time for spinning the wheel:", spin_response_time)
+    
+    # Check if response times meet predefined thresholds
+    if bet_response_time < 5 and spin_response_time < 5:
+        print("Response times meet predefined thresholds.")
+    else:
+        print("Test failed. Response times exceed predefined thresholds.")
+
+    # Close the WebDriver
+    driver.quit()
+
+# Execute the function to measure response time
+measure_response_time()
