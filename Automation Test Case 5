@@ -1,0 +1,29 @@
+from selenium import webdriver
+
+# Function to simulate multiple game sessions
+def simulate_game_sessions():
+    driver = webdriver.Chrome()
+    driver.get("https://csgoempire.com/roulette")
+    # Capture game outcome (e.g., winning number/color) for the first session
+    # Add your code here to capture the game outcome
+    first_outcome = "Outcome of the first session"
+    # Close the WebDriver for the first session
+    driver.quit()
+    
+    # Reinitialize WebDriver for the second session
+    driver = webdriver.Chrome()
+    driver.get("https://csgoempire.com/roulette")
+    # Capture game outcome for the second session
+    # Add your code here to capture the game outcome
+    second_outcome = "Outcome of the second session"
+    # Close the WebDriver for the second session
+    driver.quit()
+    
+    # Compare game outcomes
+    if first_outcome == second_outcome:
+        print("Game outcomes remain consistent across multiple sessions.")
+    else:
+        print("Test failed. Game outcomes differ across multiple sessions.")
+
+# Execute the function to simulate game sessions
+simulate_game_sessions()
